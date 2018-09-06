@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Scott Sewell 3D</title>
+<style type="text/css">
+
+
+/**
+ * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
+ * http://cssreset.com
+ */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-color: #101213;
+}
+#wrapper {
+	min-width: 855px;
+	margin: 0 auto;
+}
+#mainPage {
+	max-width: 1850px;
+	margin: 0px auto;
+	min-height: 1080px;
+	padding-bottom: 80px;
+	position: relative;
+	background-color: #181818;
+}
+#header {
+	height: 100px;
+	background-image: url(./Images/header.png);
+	background-size: 100% 100%;
+}
+.button {
+	display: inline-block;
+    position: relative;
+	height: 28px;
+	width: 120px;
+	
+	border: 1px;
+    border-style: solid;
+    border-color: #000000;
+	background-image: url(./Images/button.png);
+	background-size: 100% 100%;
+	
+	font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+	text-align: center;
+	font-size: 28px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: bold;
+	line-height: 24px;
+	color: #EEE;
+	-webkit-text-stroke: 2px black;
+}
+.button:hover {
+	background-image: url(./Images/buttonRollover.png);
+}
+.divSpanner {
+    position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	z-index 1;
+}
+#email {
+	float: right;
+	font-size: 23px;
+	line-height: 26px;
+}
+#artContent {
+	padding-top: 25px;
+	padding-right: 50px;
+	padding-bottom: 50px;
+	padding-left: 50px;
+}
+#artText {
+	font-size: 25px;
+	color: #E3E3E3;
+	padding-bottom: 20px;
+}
+#slideBox {
+	background-color: #111;
+}
+.slideHeader {
+	height:55px;
+	border: solid 2px black;
+	background-image: url(./Images/artHeader.png);
+	background-size: 100% 100%;
+}
+.slideHeader:hover {
+	background-image: url(./Images/artHeaderRollover.png);
+}
+.expandButton {
+	float: right;
+	margin: 2px;
+}
+.flipVertical {
+    -moz-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    transform: scaleY(-1);
+    -ms-filter: flipv; /*IE*/
+    filter: flipv; /*IE*/
+}
+.slideContent {
+    font-size: 0;
+}
+.slideContent img {
+    box-sizing: border-box;
+	margin: 0px;
+	padding: 0px;
+	border: 5px;
+    border-style: solid;
+    border-color: #111;
+}
+#footer {
+	position: absolute;
+	height: 50px;
+	bottom: 0px;
+	width: 100%;
+	text-align: center;
+	background-image: url(./Images/footer.jpg);
+	background-size: 100% 100%;
+}
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+</style>
+
+<link rel="stylesheet" href="./Lightbox/colorbox.css"/>
+<script src="./Lightbox/jquery-1.10.1.js"></script>
+<script src="./Lightbox/jquery.colorbox.js"></script>
+
+<script type="text/javascript">
+function prepareContent () {
+	$("#slideBox div")
+	.filter(":odd")
+	.hide()
+	 .end()
+	.filter(":even")
+	.click(
+		function () {	
+			toggleCatagory($(this))
+		}
+	);
+}
+
+function toggleCatagory (selectedCatagory) {
+	selectedCatagory.children(".expandButton").toggleClass("flipVertical");
+	selectedCatagory.next().stop(true, true).slideToggle();
+	
+	toggleSideBarButton($("#sideBar div:eq("+$("#slideBox div:even").index(selectedCatagory)+")"));
+}
+
+function prepareLightboxes () {
+	$("#slideBox div:odd").each(function(galleryIndex){
+		$(this).children("a:not([href$='.mp4'])").colorbox({rel:'gallery' + galleryIndex, maxWidth: "95%", maxHeight: "95%", scalePhotos: "true", opacity: "0.95", preloading: "true", current: ""});
+		$(this).children("a[href$='.mp4']").each(function(){
+			$(this).colorbox({rel:'gallery' + galleryIndex, html:'<video controls src="' + $(this).attr("href") + '"></video>', innerWidth: "1290px", innerHeight: "725px", opacity: "0.95", current: ""});
+		});
+	});
+}
+
+window.onload=function() {
+  prepareContent();
+  prepareLightboxes();
+}
+</script>
+</head>
+
+<body>
+<div id="wrapper">
+    <div id="mainPage">
+	
+		<div id="header">
+			<img class="unselectable" src="./Images/siteTitle.png" width="512" height="56">	
+			<div style = "position: absolute; top: 60px; left: 35px; right: 35px;">
+				<div style = "float: left">
+					<div class="button unselectable">
+						Art
+						<a href="./index.html">
+							<span class="divSpanner"></span>
+						</a>
+					</div>
+					<div class="button unselectable">
+						Bio
+						<a href="./bio.html">
+							<span class="divSpanner"></span>
+						</a>
+					</div>
+				</div>
+				<div id="email">scottsewell8@gmail.com</div>
+			</div>
+		</div>
+		  
+		<div id="artContent">
+			<div id="artText">Select a category to view, then click on the preview for the full resolution image.</div>
+		  
+			<div class="unselectable" id="slideBox">
+			  <div class="slideHeader">
+				<img src="./Images/artHeaderLowPoly.png" width="564" height="55">
+				<img class="expandButton" src="./Images/artHeaderDown.png" width="51" height="50">
+			  </div>
+			  <div class="slideContent">
+				<a href="./Images/FullRes/Repulsor1.jpg" title="In engine screenshot of a game demo I developed for Kinemaitc Soup using Unity."><img src="./Images/Thumb/Repulsor1.jpg" width="750" height="250"></a>
+				<a href="./Images/FullRes/Repulsor3.jpg"><img src="./Images/Thumb/Repulsor3.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Repulsor2.jpg"><img src="./Images/Thumb/Repulsor2.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Repulsor4.jpg"><img src="./Images/Thumb/Repulsor4.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Repulsor5.jpg"><img src="./Images/Thumb/Repulsor5.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Gun1.jpg"><img src="./Images/Thumb/Gun1.jpg" width="750" height="250"></a>
+				<a href="./Images/FullRes/Gun2.jpg"><img src="./Images/Thumb/Gun2.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/GunTextures.jpg"><img src="./Images/Thumb/GunTextures.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/GunWire.jpg"><img src="./Images/Thumb/GunWire.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Cannon1.jpg"><img src="./Images/Thumb/Cannon1.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Cannon2.jpg"><img src="./Images/Thumb/Cannon2.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Engineer1.jpg"><img src="./Images/Thumb/Engineer1.jpg" width="500" height="250"></a>
+				<a href="./Images/FullRes/Engineer2.jpg"><img src="./Images/Thumb/Engineer2.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Engineer3.jpg"><img src="./Images/Thumb/Engineer3.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/EngineerHighPoly1.jpg"><img src="./Images/Thumb/EngineerHighPoly1.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/EngineerTextures1.jpg"><img src="./Images/Thumb/EngineerTextures1.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/EngineerWireframe.jpg"><img src="./Images/Thumb/EngineerWireframe.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/DragonLow1.jpg"><img src="./Images/Thumb/DragonLow1.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/BgPoniesExploded.jpg"><img src="./Images/Thumb/BgPoniesExploded.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/BgPoniesIngame.jpg"><img src="./Images/Thumb/BgPoniesIngame.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/KartA.jpg"><img src="./Images/Thumb/KartA.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/KartT.jpg"><img src="./Images/Thumb/KartT.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/KartR.jpg"><img src="./Images/Thumb/KartR.jpg" width="250" height="250"></a>
+			  </div>
+			  
+			  <div class="slideHeader">
+				<img src="./Images/artHeaderHighPoly.png" width="564" height="55">
+				<img class="expandButton" src="./Images/artHeaderDown.png" width="51" height="50">
+			  </div>
+			  <div class="slideContent">
+				<a href="./Images/FullRes/Tiger1.jpg"><img src="./Images/Thumb/Tiger1.jpg" width="500" height="250"></a>
+				<a href="./Images/FullRes/Tiger2.jpg"><img src="./Images/Thumb/Tiger2.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Tiger3.jpg"><img src="./Images/Thumb/Tiger3.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Tiger4.jpg"><img src="./Images/Thumb/Tiger4.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/JudyHopps.jpg" title="Original character design belongs to Disney."><img src="./Images/Thumb/JudyHopps.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/JudyHoppsRig.jpg" title="The rig and custom UI scripted with Python."><img src="./Images/Thumb/JudyHoppsRig.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Tirpitz1.jpg"><img src="./Images/Thumb/Tirpitz1.jpg" width="750" height="250"></a>
+				<a href="./Images/FullRes/Tirpitz2.jpg"><img src="./Images/Thumb/Tirpitz2.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/TirpitzAo1.jpg"><img src="./Images/Thumb/TirpitzAo1.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/TirpitzAo2.jpg"><img src="./Images/Thumb/TirpitzAo2.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/TirpitzAo3.jpg"><img src="./Images/Thumb/TirpitzAo3.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Bike1.jpg"><img src="./Images/Thumb/Bike1.jpg" width="750" height="250"></a>
+				<a href="./Images/FullRes/Bike2.jpg"><img src="./Images/Thumb/Bike2.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Bike4.jpg"><img src="./Images/Thumb/Bike4.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Bike5.jpg"><img src="./Images/Thumb/Bike5.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/BikeAo1.jpg"><img src="./Images/Thumb/BikeAo1.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Uboat1.jpg"><img src="./Images/Thumb/Uboat1.jpg" width="500" height="250"></a>
+				<a href="./Images/FullRes/Uboat2.jpg"><img src="./Images/Thumb/Uboat2.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Uboat3.jpg"><img src="./Images/Thumb/Uboat3.jpg" width="250" height="250"></a>
+			  </div>
+			  
+			  <div class="slideHeader">
+				<img src="./Images/artHeaderAnimation.png" width="564" height="55">
+				<img class="expandButton" src="./Images/artHeaderDown.png" width="51" height="50">
+			  </div>
+			  <div class="slideContent">
+				<a class='youtube' href="https://www.youtube.com/watch?v=SYWU8Fw45Zg" title="A short animation I made for practice. I did all the modelling, rigging, animation, and rendering."><img src="./Images/Thumb/AAIWTB.jpg" width="500" height="250"></a>
+				<script>
+					$('.youtube').colorbox({iframe: true, width: 1500, height: 950, href:function(){
+						var videoId = new RegExp('[\\?&]v=([^&#]*)').exec(this.href);
+						if (videoId && videoId[1]) {
+							return 'http://youtube.com/embed/'+videoId[1]+'?rel=0&wmode=transparent&showinfo=0&modestbranding=1';
+						}
+					}});
+				</script>
+				<a href="./Images/FullRes/Dragon1.mp4"><img src="./Images/Thumb/Dragon1.jpg" width="250" height="250"></a>
+				<a href="./Images/FullRes/Dragon2.mp4"><img src="./Images/Thumb/Dragon2.jpg" width="250" height="250"></a>
+			  </div>
+			</div>
+		</div>
+    
+		<div id="footer">
+            <div style = "padding: 15px;">
+                <script type="text/JavaScript">
+                    document.write('Copyright &copy ' + new Date().getFullYear() + ' Scott Sewell');
+                </script>
+            </div>
+		</div>
+    </div>
+</div>
+</body></html>
